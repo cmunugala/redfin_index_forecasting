@@ -29,7 +29,7 @@ Input features to the vector autoregression included:
 
 Here is a more zoomed in look:
 
-![alt text](images/image.png)
+![alt text](images/zoomed_forecast.png)
 
 
 Model Performance:
