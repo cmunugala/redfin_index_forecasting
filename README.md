@@ -6,7 +6,7 @@ In 2023, Redfin released their Housing Price Index, which uses the repeat sales 
 
 I decided to perform this analysis only on the Los Angeles Area to keep my analysis more focused. 
 
-![alt text](image.png)
+![alt text](images/original_series.png)
 
 ### Methods and Data
 
@@ -24,7 +24,17 @@ Input features to the vector autoregression included:
 
 ### Results
 
-![alt text](image-1.png)
+![alt text](images/live_forecast.png)
+
+
+Here is a more zoomed in look:
+
+![alt text](images/image.png)
+
+
+Model Performance:
+
+MAE on Test Set = 0.548
 
 ### Next Steps
 
