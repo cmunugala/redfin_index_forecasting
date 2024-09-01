@@ -2,11 +2,11 @@
 
 ### Background
 
-In 2023, Redfin released their Housing Price Index, which uses the repeat sales pricing method to measure changes in U.S home prices. More information about the index can be found at - https://www.redfin.com/news/redfin-home-price-index/. They release their index monthly, with about a 1 month lag. In this project, I use various time series forecasting methods to forecast their index into the future, allowing interested parties such as real estate professionals, buyers, sellers, and financial institutions to look ahead at what is coming in the housing market. 
+In 2023, Redfin released their Housing Price Index, which uses the repeat sales pricing method to measure changes in U.S home prices. More information about the index can be found at - https://www.redfin.com/news/redfin-home-price-index/. They release their index monthly, with about a 2 month lag. In this project, I use various time series forecasting methods to forecast their index into the future, allowing interested parties such as real estate professionals, buyers, sellers, and financial institutions to look ahead at what is coming in the housing market. 
 
 I decided to perform this analysis only on the Los Angeles Area to keep my analysis more focused. 
 
-![alt text](images/original_series.png)
+![alt text](forecast_plots/original_series.png)
 
 ### Methods and Data
 
