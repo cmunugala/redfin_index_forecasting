@@ -16,7 +16,7 @@ Input features to the vector autoregression included:
 
 * Median List Price MoM
 * Median Price Per Sqaure Foot MoM
-* Median List Pripce Per Sqaure Foot MoM
+* Median List Price Per Sqaure Foot MoM
 * Sold above List MoM
 * Avg Sale to List MoM
 * Mortgage Rate (National 30 yr fixed) 

@@ -1,0 +1,33 @@
+name: Update README with New Forecast Plots
+
+on:
+  push:
+    paths:
+      - 'forecast_plots/**'  # Specify the path where new data is added
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.9'  # Use your required Python version
+
+      - name: Update README
+        run: |
+          python scripts/automatic_updating.py  # Replace with your script to update the README
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "c.munugala@gmail.com"
+          git config --local user.name "cmunugala"
+          git add README.md
+          git commit -m "Update README with new data"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
