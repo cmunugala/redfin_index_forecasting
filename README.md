@@ -24,12 +24,12 @@ Input features to the vector autoregression included:
 
 ### Results
 
-![alt text](forecast_plot/20240901_forecast.png)
+![alt text](forecast_plots/20240901_forecast.png)
 
 
 Here is a more zoomed in look:
 
-![alt text](images/20240901_zoomed_forecast.png)
+![alt text](forecast_plots/20240901_zoomed_forecast.png)
 
 
 Model Performance:
