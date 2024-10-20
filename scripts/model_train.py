@@ -7,6 +7,7 @@ from dateutil.relativedelta import relativedelta
 import matplotlib.pyplot as plt
 
 
+script_dir = os.path.dirname(os.path.realpath(__file__))
 
 def  process_rhpi():
 
@@ -47,7 +48,7 @@ def process_redfin_city_data(last_date):
 
     #take subset for los angeles and take mean of variables across different periods and cities to get one mean per period for LA
     la_info = info[(info['parent_metro_region'] == 'Los Angeles, CA') & (info['property_type'] == 'Single Family Residential')]
-    features = la_info.groupby(['period_begin']).mean()[['median_sale_price_mom','median_list_price_mom','median_ppsf_mom','median_list_ppsf_mom','homes_sold_mom','new_listings_mom','inventory_mom','sold_above_list_mom','price_drops_mom','median_dom_mom','months_of_supply_mom','avg_sale_to_list_mom']]
+    features = la_info.groupby(['period_begin'])[['median_sale_price_mom','median_list_price_mom','median_ppsf_mom','median_list_ppsf_mom','homes_sold_mom','new_listings_mom','inventory_mom','sold_above_list_mom','price_drops_mom','median_dom_mom','months_of_supply_mom','avg_sale_to_list_mom']].mean()
 
     #make index datetime type and set date to match rhpi
     features.index = pd.to_datetime(features.index)
@@ -104,8 +105,6 @@ def normalize_series(series):
 
 
 if __name__ == '__main__':
-
-    script_dir = os.path.dirname(os.path.realpath(__file__))
 
     #read in and process data sources
     print('reading in data')
@@ -202,9 +201,10 @@ if __name__ == '__main__':
     current_date = datetime.now()
     formatted_date = current_date.strftime('%Y%m%d')
     
-    metric_df = pd.DataFrame({'Date':formatted_date,'Pred Date':denormalized_forecast.index[1],'Forecast Pred':denormalized_forecast[1],'MAE':mean_absolute_error_val},index=[0])
-    metric_df.to_csv(f'{script_dir}/../metrics/model_metrics.csv',index=False,mode='a')
+    file_exists = os.path.isfile(f'{script_dir}/../output_data/model_metrics.csv')
 
+    metric_df = pd.DataFrame({'Date':formatted_date,'Pred Date':denormalized_forecast.index[1],'Forecast Pred':denormalized_forecast[1],'MAE':mean_absolute_error_val},index=[0])
+    metric_df.to_csv(f'{script_dir}/../output_data/model_metrics.csv',index=False,mode='a',header=not file_exists)
 
     #create forecast plot
     plt.style.use('Solarize_Light2')
@@ -231,6 +231,28 @@ if __name__ == '__main__':
 
     plt.savefig(f'{script_dir}/../forecast_plots/{formatted_date}_zoomed_forecast.png', dpi=300, bbox_inches='tight')
 
+    #format and save data for tableau dashboard
+    original_la_rhpi = pd.DataFrame(original_la_rhpi)
+
+    denormalized_forecast = pd.DataFrame(denormalized_forecast)
+    denormalized_forecast.index.name = 'Date'
+    denormalized_forecast.columns = ['Redfin HPI MoM']
+
+    original_la_rhpi['Type'] = 'Series'
+    denormalized_forecast['Type'] = 'Forecast'
+
+    output = pd.concat([original_la_rhpi,denormalized_forecast])    
+    output.to_csv(f'{script_dir}/../output_data/tableau.csv')
+    output.reset_index(inplace=True)
+    output.drop_duplicates('Date',inplace=True)
+
+    current_metrics = pd.read_csv(f'{script_dir}/../output_data/model_metrics.csv')
+    current_metrics = current_metrics[['Pred Date','Forecast Pred']]
+    current_metrics.rename(columns={'Pred Date':'Date'},inplace=True)
+    current_metrics['Date'] = pd.to_datetime(current_metrics['Date'],format='%Y-%m-%d')
+
+    historical = current_metrics.merge(output[['Date','Redfin HPI MoM']],on='Date',how='inner')
+    historical.to_csv(f'{script_dir}/../output_data/historical.csv')
 
     print('complete!')
     
