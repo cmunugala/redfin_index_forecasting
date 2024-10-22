@@ -229,7 +229,7 @@ if __name__ == '__main__':
     plt.title(f'Live Forecast of RHPI ({formatted_date})', fontsize=20)
     plt.ylabel('Percent MoM', fontsize=16)
 
-    plt.savefig(f'{script_dir}/../forecast_plots/{formatted_date}_zoomed_forecast.png', dpi=300, bbox_inches='tight')
+    plt.savefig(f'{script_dir}/../forecast_plots/latest_zoomed_forecast.png', dpi=300, bbox_inches='tight')
 
     #format and save data for tableau dashboard
     original_la_rhpi = pd.DataFrame(original_la_rhpi)
